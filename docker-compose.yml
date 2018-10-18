@@ -27,21 +27,30 @@ services:
       - ./tools/wait-for-it.sh:/wait-for-it.sh
       - ./config/vault:/config
       - ./config/vault/policies:/policies
+      - data:/vault/file
     entrypoint: /wait-for-it.sh -t 20 -h consul -p 8500 -s -- vault server -config=/config/with-consul.hcl
-   
+
   goldfish:
-    image: "caiyeon/goldfish:0.9.0" 
-    stdin_open: true
+    image: "caiyeon/goldfish:0.9.0"
+    container_name: "goldfish"
     ports:
       - "8000:8000"
     environment:
       VAULT_ADDR: http://127.0.0.1:8200
-      GOLDFISH_TOKEN: GOLDFISH
-      GOLDFISH_CONFIG: CONFIG
-    volumes:
-      - ./goldfish/entrypoint.sh:/goldfish/entrypoint.sh
+      VAULT_TOKEN: 5TkfXGYPmSMx3LGecgmjk3zq
+      GOLDFISH_CONFIG: >
+        listener "tcp" {
+         address       = ":8000"         # listen on default https port
+         tls_disable   = 1
+        }
+        vault {
+         address       = "http://vault:8200"
+         tls_skip_verify = 1
+        }
+        disable_mlock = 1
     links:
       - vault
     depends_on:
       - vault
-    command: /goldfish/entrypoint.sh
+volumes:
+  data:
