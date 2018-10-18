@@ -3,6 +3,7 @@ services:
 
   consul:
     image: "consul"
+    container_name: "consul"
     hostname: "consul"
     command: "agent -dev -client 0.0.0.0"
     ports:
@@ -15,6 +16,7 @@ services:
       - consul
     image: "vault"
     hostname: "vault"
+    container_name: "vault"
     links:
       - "consul:consul"
     environment:
@@ -26,3 +28,14 @@ services:
       - ./config/vault:/config
       - ./config/vault/policies:/policies
     entrypoint: /wait-for-it.sh -t 20 -h consul -p 8500 -s -- vault server -config=/config/with-consul.hcl
+   
+  goldfish:
+    image:"caiyeon/goldfish" 
+    stdin_open: true
+    ports:
+      - "8000:8000"
+    links:
+      - vault
+    depends_on:
+      - vault
+    command: /goldfish/entrypoint.sh
