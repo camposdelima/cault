@@ -30,7 +30,7 @@ services:
     entrypoint: /wait-for-it.sh -t 20 -h consul -p 8500 -s -- vault server -config=/config/with-consul.hcl
    
   goldfish:
-    image:"caiyeon/goldfish" 
+    image: "caiyeon/goldfish" 
     stdin_open: true
     ports:
       - "8000:8000"
