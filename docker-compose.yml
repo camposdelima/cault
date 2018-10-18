@@ -38,6 +38,8 @@ services:
       VAULT_ADDR: http://127.0.0.1:8200
       GOLDFISH_TOKEN: GOLDFISH
       GOLDFISH_CONFIG: CONFIG
+    volumes:
+      - ./goldfish/entrypoint.sh:/goldfish/entrypoint.sh
     links:
       - vault
     depends_on:
