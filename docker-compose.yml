@@ -36,8 +36,6 @@ services:
     ports:
       - "8000:8000"
     environment:
-      VAULT_ADDR: http://127.0.0.1:8200
-      VAULT_TOKEN: 5TkfXGYPmSMx3LGecgmjk3zq
       GOLDFISH_CONFIG: >
         listener "tcp" {
          address       = ":8000"         # listen on default https port
