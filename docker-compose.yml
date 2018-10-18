@@ -30,22 +30,14 @@ services:
       - data:/vault/file
     entrypoint: /wait-for-it.sh -t 20 -h consul -p 8500 -s -- vault server -config=/config/with-consul.hcl
 
-  goldfish:
-    image: "caiyeon/goldfish:0.9.0"
-    container_name: "goldfish"
+  vault-ui:
+    image: "djenriquez/vault-ui"
+    container_name: "vault-ui"
     ports:
       - "8000:8000"
     environment:
-      GOLDFISH_CONFIG: >
-        listener "tcp" {
-         address       = ":8000"         # listen on default https port
-         tls_disable   = 1
-        }
-        vault {
-         address       = "http://vault:8200"
-         tls_skip_verify = 1
-        }
-        disable_mlock = 1
+      VAULT_URL_DEFAULT: http://vault:8200
+      VAULT_AUTH_DEFAULT: USERNAMEPASSWORD
     links:
       - vault
     depends_on:
