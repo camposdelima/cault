@@ -9,10 +9,10 @@ services:
     ports:
       - "8200:8200"
     volumes:
-      - ./config:/config
+      - ./config.hcl:/vault/config.hcl
       - ./policies:/policies
       - ./data:/vault
-    entrypoint: /wait-for-it.sh -t 20 -h consul -p 8500 -s -- vault server -config=/config/with-consul.hcl
+    command: server -config=/vault/config.hcl
 
   vault-ui:
     image: "djenriquez/vault-ui"
