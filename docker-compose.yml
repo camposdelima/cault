@@ -9,9 +9,11 @@ services:
     ports:
       - "8200:8200"
     volumes:
-      - ./config.hcl:/vault/config.hcl
       - ./policies:/policies
       - ./data:/vault
+      - ./config.hcl:/vault/config.hcl
+    cap_add:
+      - IPC_LOCK
     command: server -config=/vault/config.hcl
 
   vault-ui:
