@@ -10,11 +10,11 @@ services:
       - "8200:8200"
     volumes:
       - ./policies:/policies
-      - ./data:/vault
-      - ./config:/config
+      - ./data/file:/vault/file
+      - ./config.hcl:/vault/config/config.hcl
     cap_add:
       - IPC_LOCK
-    command: server -config=/config/vault.hcl
+    command: server
 
   vault-ui:
     image: "djenriquez/vault-ui"
