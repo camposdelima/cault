@@ -1,5 +1,5 @@
 backend "file" {
-  path = "/vault"
+  path = "/vault/file"
 }
 
 ui = true
